@@ -1,5 +1,5 @@
 import { AiFillHome,AiOutlineClockCircle,AiOutlineLike,AiShorts } from "react-icons/ai";
-import { MdSubscriptions,MdOutlineVideoLibrary } from "react-icons/md";
+import { MdSubscriptions} from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 function Sidebar(){
     return (
