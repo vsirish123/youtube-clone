@@ -11,7 +11,10 @@ function Home()
     const [category,setCategory]=useState("All");
     const [searchText,setSearchText]=useState("");
 
-    const categoryFiltered=category==="All"? sampleVideos:sampleVideos.filter((v)=>v.category===category);
+    const categoryFiltered=
+        category==="All" 
+            ? sampleVideos
+            : sampleVideos.filter((v)=>v.category===category);
 
     const finalVideos=categoryFiltered.filter((v)=>v.title.toLowerCase().includes(searchText.toLowerCase()));
 
@@ -22,9 +25,9 @@ function Home()
             <div className={`main ${collapsed ? "main-collapsed":""}`}>
                 <FilterBar setCategory={setCategory}/>
                 <div className="video-grid">
-                    {finalVideos.map((v)=>{
+                    {finalVideos.map((v)=>(
                         <VideoCard key={v.videoId} video={v}/>
-                    })}
+                    ))}
                 </div>
             </div>
         </>

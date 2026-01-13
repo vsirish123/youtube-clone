@@ -23,7 +23,7 @@ function Header(){
                 </button>
             </div>
 
-            <div onClick={()=>navigate("/login")} style={{cursor:"pointer"}}>
+            <div className="sign-btn" onClick={()=>navigate("/login")} style={{cursor:"pointer"}}>
                 <FaUserCircle size={28}/>
             </div>
         </div>
