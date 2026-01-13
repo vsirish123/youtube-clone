@@ -6,9 +6,9 @@ function Sidebar(){
     const navigate=useNavigate();
     return (
         <div>
-            <button className="sidebar-item" onClick={()=>navigate("/")}>
+            <div className="sidebar-item" onClick={()=>navigate("/")}>
                 <AiFillHome className="sidebar-icon"/>
-            </button>
+            </div>
             <div className="sidebar-item">
                 <MdSubscriptions className="sidebar-icon"/>
             </div>
