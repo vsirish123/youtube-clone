@@ -5,6 +5,8 @@ const app=express();
 app.use(cors());
 app.use(express.json());
 
+mongoose.connect("mongodb://localhost:27017/youtube-info").then(()=>console.log("Mongodb connected"));
+
 app.get("/",(req,res)=>{
     res.send("youtube clone Backend Running...");
 })
