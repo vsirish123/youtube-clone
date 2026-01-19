@@ -25,6 +25,46 @@ export const registerUser=async(req,res)=>{
     }
     catch(err)
     {
-        return res.status(500).json({err:err.message})
+        res.status(500).json({err:err.message})
+    }
+}
+
+export const loginUser=async(req,res)=>{
+    try{
+        const {email,password}=req.body;
+
+        const user=await User.findOne({email});
+
+        if(!user)
+        {
+            return res.status(400).json({message:"Invalid email or password "});
+        }
+
+        if(password!=user.password)
+        {
+            return res.status(400).json({message:"Invalid email or password"});
+        }
+
+        const token=jwt.sign(
+            {id:user._id,email:user.email},
+            JWT_TOKEN,
+            {expiresIn:"7d"}
+        )
+
+        res.json(
+            {
+                message:"Login successfull",
+                token,
+                user:{
+                    id:user._id,
+                    username:user.username,
+                    email:user.email
+                }
+            }
+        )
+    }
+    catch(err)
+    {
+        res.status(500).json({err:err.message});
     }
 }
