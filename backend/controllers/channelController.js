@@ -31,3 +31,27 @@ export const createChannel=async(req,res)=>{
         res.status(500).json({err:err.message})
     }
 }
+
+export const getChannelById=async(req,res)=>{
+    try{
+        const {id}=req.params;
+
+        const channel=await Channel.findById(id);
+
+        if(!channel)
+        {
+            return res.status(404).json({message:"channel not found"})
+        }
+
+        const videos=await Video.find({channelId:id});
+
+        res.json({
+            channel,
+            videos
+        })
+    }
+    catch(err)
+    {
+        res.json.status(500).json({err:err.message})
+    }
+}
