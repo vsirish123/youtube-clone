@@ -30,7 +30,7 @@ export const uploadVideo=async(req,res)=>{
 }
 
 
-export const getVideoByChannel=async(req,res)=>{
+export const getVideosByChannel=async(req,res)=>{
     try{
         const {channelId}=req.params;
         const videos=await Video.find({channelId});
@@ -110,5 +110,4 @@ export const deleteVideo=async(req,res)=>{
     {
         res.status(500).json({err:err.message});
     }
-
 }
