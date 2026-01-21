@@ -58,3 +58,30 @@ export const getVideoById=async(req,res)=>{
         res.status(500).json({err:err.message});
     }
 }
+
+export const editVideo=async(req,res)=>{
+    try{
+        const {id}=req.params;
+        const uploader=req.user.id;
+        const video=await Video.findById(id);
+        if(!video)
+        {
+            return res.json({message:"video not found"});
+        }
+
+        if(user.uploader!=uploader)
+        {
+            return res.json({message:"unauthorized"});
+        }
+
+        const updatedVideo=await Video.findByIdAndUpdate(id,req.body,{new:true});
+
+        res.json({message:"video updated",video:updatedVideo});
+        
+    }
+    catch(err)
+    {
+        res.status(500).json({err:err.message});
+    }
+
+}
