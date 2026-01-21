@@ -85,3 +85,30 @@ export const editVideo=async(req,res)=>{
     }
 
 }
+
+export const deleteVideo=async(req,res)=>{
+    try{
+        const {id}=req.params;
+        const uploader=req.user.id;
+        const video=await Video.findById(id);
+        if(!video)
+        {
+            return res.json({message:"video not found"});
+        }
+
+        if(user.uploader!=uploader)
+        {
+            return res.json({message:"unauthorized"});
+        }
+        await Video.findByIdAndDelete(id);
+
+        await Channel.findByIdAndUpdate(video.channelId,{$pull:{videos:id}});
+
+        res.json({message:"video deleted"});
+    }
+    catch(err)
+    {
+        res.status(500).json({err:err.message});
+    }
+
+}
