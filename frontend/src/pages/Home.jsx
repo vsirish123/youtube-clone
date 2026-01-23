@@ -7,7 +7,7 @@ import { useState } from "react";
 
 function Home()
 {
-    const [collapsed,setCollapsed]=useState(false);
+    const [collapsed, setCollapsed] = useState(false);
     const [category,setCategory]=useState("All");
     const [searchText,setSearchText]=useState("");
 
@@ -21,13 +21,15 @@ function Home()
     return (
         <>
             <Header toggleSidebar={()=>setCollapsed(!collapsed)} setSearchText={setSearchText}/>
-            <Sidebar collapsed={collapsed}/>
-            <div className={`main ${collapsed ? "main-collapsed":""}`}>
-                <FilterBar setCategory={setCategory}/>
-                <div className="video-grid">
-                    {finalVideos.map((v)=>(
-                        <VideoCard key={v.videoId} video={v}/>
-                    ))}
+            <div className="app-body">
+                <Sidebar collapsed={collapsed}/>
+                <div className={`main ${collapsed ? "main-collapsed":""}`}>
+                    <FilterBar setCategory={setCategory}/>
+                    <div className="video-grid">
+                        {finalVideos.map((v)=>(
+                            <VideoCard key={v.videoId} video={v}/>
+                        ))}
+                    </div>
                 </div>
             </div>
         </>

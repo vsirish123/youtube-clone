@@ -1,5 +1,7 @@
 :root{
     --header-height:64px;
+    --sidebar-open:240px;
+    --sidebar-collapsed:72px;
 }
 
 *{
@@ -91,4 +93,69 @@ body{
 }
 .filter-bar button:hover{
     background-color: grey;
+}
+
+.sidebar{
+    width: 240px;
+    position: fixed;
+    border-right: 1px solid grey;
+    left: 0;
+    background: black;
+    padding-top: 10px;
+    overflow: hidden;
+    transition: width 0.3s ease;
+    z-index: 100;
+    top: var(--header-height);
+    height: clac(100hv - var(--header-height));
+}
+.sidebar.collapsed{
+    width: 72px;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 20px;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.sidebar-item:hover{
+    background: grey;
+}
+.sidebar-icons{
+    font-size: 30px;
+}
+.sidebar-text{
+    font-size: 18px;
+    align-items: center;
+}
+.sidebar.collapsed .sidebar-item {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sidebar.collapsed .sidebar-text {
+  display: block;
+  font-size: 10px;
+  margin-top: 4px;
+  text-align: center;
+}
+
+.app-body{
+    display: flex;
+    margin-top: var(--header-height);
+}
+
+.main{
+    margin-left: var(--sidebar-open);
+    width: calc(100% - var(--sidebar-open));
+    padding: 20px;
+    transition: margin-left 0.3s ease,width 0.3s ease;
+}
+
+.main-collapsed{
+    margin-left: var(--sidebar-collapsed);
+    width:calc(100% - var(--sidebar-collapsed));
+
 }
