@@ -4,7 +4,64 @@
     box-sizing:border-box;
 }
 body{
-    background-color: black;
+    background: black;
     font-family:"Roboto",sans-serif;
+    color:white;
+}
+.header{
+    display: flex;
+    position: fixed;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    border-bottom: 2px solid grey;
+    width:100%;
+    top:0;
+    z-index: 50;
+    background: black;
+}
+.header-left{
+    display: flex;
+    align-items: center;
+    gap:18px;
+}
+.search-box{
+    width: 50%;
+    display: flex;
+}
+.search-box input{
+    width: 100%;
+    padding:10px;
+    border:1px solid grey;
+    border-right: none;
+    border-radius: 20px 0 0 20px;
+    color:white;
+    background:black;
+}
+.search-btn{
+    width: 60px;
+    border-radius: 0 20px 20px 0;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:white;
+    background: black;
+}
+.mic-btn{
+    border: 1px solid grey;
+    border-radius:50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:white;
+    background:black;
+    width: 42px;
+}
+.sign-btn{
+    border: 1px solid grey;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
     color:white;
 }
