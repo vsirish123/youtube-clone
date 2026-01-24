@@ -13,6 +13,9 @@ function Login()
                 <button onClick={()=>navigate("/")}>
                     Sign in
                 </button>
+                <button onClick={()=>navigate("/register")}>
+                    Register
+                </button>
             </div>
         </div>
     )

@@ -248,3 +248,46 @@ body{
     grid-template-columns: repeat(4, 1fr);
   }
 }
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.register-form {
+  width: 350px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.register-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.register-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.register-form button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: red;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.register-form p {
+  text-align: center;
+  margin-top: 10px;
+}
