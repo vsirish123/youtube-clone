@@ -159,3 +159,32 @@ body{
     width:calc(100% - var(--sidebar-collapsed));
 
 }
+.login-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.login-form{
+    width: 300px;
+    padding:20px;
+    border-radius: 20px;
+    border: 2px solid grey;
+    background: white;
+}
+.login-form input{
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid whitesmoke;
+    padding: 12px;
+}
+.login-form button{
+    color:white;
+    background: red;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 12px;
+}
