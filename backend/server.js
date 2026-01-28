@@ -1,10 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import {authRoutes} from "./routes/authRoutes.js"
-import {channelRoutes} from "./routes/channelRoutes.js"
-import {videoRoutes} from "./routes/videoRoutes.js"
-import {channelRoutes} from "./routes/commentRoutes.js"
+import authRoutes from "./routes/authRoutes.js";
+import videoRoutes from "./routes/videoRoutes.js";
+import channelRoutes from "./routes/channelRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
 
 const app=express();
 app.use(cors());

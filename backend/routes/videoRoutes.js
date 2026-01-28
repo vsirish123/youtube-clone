@@ -1,6 +1,6 @@
 import express from "express";
-import {protect} from "../middleware/authMiddleware";
-import { uploadVideo,getVideosByChannel,getVideoById,editVideo,deleteVideo } from "../controllers/videoController";
+import {protect} from "../middleware/authMiddleware.js";
+import { uploadVideo,getVideosByChannel,getVideoById,editVideo,deleteVideo } from "../controllers/videoController.js";
 
 const router=express.Router();
 

@@ -1,12 +1,17 @@
 import express from "express";
-import { addComment,getComments,editComment,deleteComment } from "../controllers/commentController";
-import {protect} from "../middleware/authMiddleware"
+import {
+  addComment,
+  getComments,
+  editComment,
+  deleteComment,
+} from "../controllers/commentController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
-const router=express.Router();
+const router = express.Router();
 
-router.post("/:videoId",protect,addComment);
-router.get("/:videoId",getComments);
-router.edit("/edit/:commentId",protect,editComment);
-router.delete("/delete/:commentId",protect,deleteComment);
+router.post("/:videoId", protect, addComment);
+router.get("/:videoId", getComments);
+router.put("/edit/:commentId", protect, editComment);
+router.delete("/delete/:commentId", protect, deleteComment);
 
 export default router;

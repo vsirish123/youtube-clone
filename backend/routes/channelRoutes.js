@@ -1,6 +1,6 @@
 import express from "express";
-import { createChannel,getChannelById } from "../controllers/channelController";
-import {protect} from "../middleware/authMiddleware"
+import { createChannel,getChannelById } from "../controllers/channelController.js";
+import {protect} from "../middleware/authMiddleware.js"
 
 const router=express.Router();
 
