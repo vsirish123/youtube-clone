@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { sampleVideos } from "../utils/sampleVideos";
 
 function VideoPlayer()
 {
