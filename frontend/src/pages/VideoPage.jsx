@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import API from "../api/api";
+import API from "../api/api.js";
 import CommentSection from "../components/CommentSection";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 

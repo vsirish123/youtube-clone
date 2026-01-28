@@ -2,7 +2,7 @@ import { Route,Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
-import VideoPlayer from "./pages/VideoPlayer";
+import VideoPage from "./pages/VideoPage";
 function App()
 {
     return (
@@ -10,7 +10,7 @@ function App()
             <Route path="/" element={<Home />}/>
             <Route path="/login" element={<Login />}/>
             <Route path="/register" element={<Register />}/>
-            <Route path="/video/:id" element={<VideoPlayer />}/>
+            <Route path="/video/:id" element={<VideoPage />}/>
         </Routes>
     )
 }
