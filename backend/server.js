@@ -7,10 +7,13 @@ import channelRoutes from "./routes/channelRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 
 const app=express();
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+}));
+
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost:27017/youtube-info").then(()=>console.log("Mongodb connected"));
+mongoose.connect("mongodb://localhost:27017/users-data").then(()=>console.log("Mongodb connected"));
 
 app.use("/api/auth",authRoutes);
 app.use("/api/channel",channelRoutes);
