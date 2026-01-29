@@ -17,7 +17,7 @@ const ChannelPage = () => {
     const fetchChannel = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5001/api/channels/${id}`
+          `http://localhost:5002/api/channels/${id}`
         );
         setChannel(res.data.channel);
         setVideos(res.data.videos);
