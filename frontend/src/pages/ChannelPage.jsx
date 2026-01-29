@@ -34,7 +34,7 @@ const ChannelPage = () => {
   if (loading) return <p className="channel-loading">Loading...</p>;
   if (!channel) return <p className="channel-loading">Channel not found</p>;
 
-  // ✅ OWNER CHECK (SAFE)
+  // OWNER CHECK (SAFE)
   const isOwner =
     user &&
     (channel.owner === user._id ||
@@ -42,7 +42,7 @@ const ChannelPage = () => {
 
   const deleteVideo = async (videoId) => {
     await axios.delete(
-      `http://localhost:5001/api/videos/${videoId}`,
+      `http://localhost:5002/api/videos/${videoId}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
