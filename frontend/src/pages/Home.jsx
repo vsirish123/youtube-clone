@@ -52,7 +52,7 @@ function Home()
                     <FilterBar setCategory={setCategory}/>
                     <div className="video-grid">
                         {finalVideos.map((v)=>(
-                            <VideoCard key={v.videoId} video={v}/>
+                            <VideoCard key={v._id} video={v}/>
                         ))}
                     </div>
                 </div>
