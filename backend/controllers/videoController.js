@@ -1,5 +1,5 @@
 import Video from "../models/Video.js";
-import Channel from "../models/Channel.js";
+import mongoose from "mongoose";
 
 
 export const getAllVideos = async (req, res) => {
@@ -37,25 +37,17 @@ export const uploadVideo=async(req,res)=>{
 }
 
 
-export const getVideosByChannel=async(req,res)=>{
-    try{
-        const {channelId}=req.params;
-        const videos=await Video.find({channelId});
-        res.json(videos);
-    }
-    catch(err)
-    {
-        res.status(500).json({err:err.message});
-    }
-}
-
 export const getVideoById=async(req,res)=>{
     try{
-        const video=await Video.findById(req.params.id);
+        const {id}=req.params;
+        if(!mongoose.Types.ObjectId.isValid(id)){
+          return res.status(400).json({message:"Invalid ID"});
+        }
+        const video=await Video.findById(id).populate("channel","channelName owner");
 
         if(!video)
         {
-            return res.json({message:"video not found"});
+            return res.status(404).json({message:"video not found"});
         }
 
         res.json(video);
