@@ -4,7 +4,10 @@ import Video from "../models/Video.js";
 export const createChannel=async(req,res)=>{
     try{
         const {channelName,description,channelBanner}=req.body;
-
+        if(!channelName)
+        {
+            return res.status(404).json({message:"channel name is required"})
+        }
         const owner=req.user.id;
 
         const existingChannel=await Channel.findOne({owner})
@@ -22,9 +25,7 @@ export const createChannel=async(req,res)=>{
                 owner
             }
         );
-
-        await newChannel.save();
-        res.json({message:"channel created successfully",channel:newChannel})
+        res.status(201).json({message:"channel created successfully",channel:newChannel});
     }
     catch(err)
     {
