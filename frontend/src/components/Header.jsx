@@ -1,4 +1,4 @@
-import { FaBars,FaSearch,FaMicrophone,FaUserCircle } from "react-icons/fa";
+import { FaBars,FaSearch,FaMicrophone,FaChevronDown } from "react-icons/fa";
 import { useNavigate,useLocation } from "react-router-dom";
 import { useState,useEffect } from "react";
 import axios from "axios";
