@@ -6,6 +6,6 @@ const router=express.Router();
 
 router.post("/create",protect,createChannel);
 router.get("/my-channel",getMyChannel)
-router.post("/:id",getChannelById);
+router.get("/:id",getChannelById);
 
 export default router;
