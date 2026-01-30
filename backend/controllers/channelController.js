@@ -17,7 +17,7 @@ export const createChannel=async(req,res)=>{
             return res.status(400).json({message:"channel already exists for the user"});
         }
 
-        const newChannel=new Channel(
+        const newChannel=await Channel.create(
             {
                 channelName,
                 description,
@@ -35,9 +35,8 @@ export const createChannel=async(req,res)=>{
 
 export const getChannelById=async(req,res)=>{
     try{
-        const {id}=req.params;
 
-        const channel=await Channel.findById(id);
+        const channel=await Channel.findById(req.params.id);
 
         if(!channel)
         {
@@ -53,7 +52,7 @@ export const getChannelById=async(req,res)=>{
     }
     catch(err)
     {
-        res.json.status(500).json({err:err.message})
+        res.status(500).json({err:err.message})
     }
 }
 export const getMyChannel = async (req, res) => {

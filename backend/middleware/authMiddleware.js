@@ -1,15 +1,16 @@
 import jwt from "jsonwebtoken";
-import User from "../models/User"
+import User from "../models/User.js"
 const JWT_TOKEN="MY_SUPER_SECRET_KEY";
 
 export const protect=async(req,res,next)=>
 {
     try{
+        let token;
         const authHeader=req.headers.authorization;
 
         if(authHeader&&authHeader.startsWith("Bearer "))
         {
-            const token=authHeader.split(" ")[1];
+            token=authHeader.split(" ")[1];
         }
         if(!token)
         {

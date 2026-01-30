@@ -7,10 +7,7 @@ import channelRoutes from "./routes/channelRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 
 const app=express();
-app.use(cors({
-  origin: "http://localhost:5173",
-}));
-
+app.use(cors())
 app.use(express.json());
 
 mongoose.connect("mongodb://localhost:27017/users-data").then(()=>console.log("Mongodb connected"));

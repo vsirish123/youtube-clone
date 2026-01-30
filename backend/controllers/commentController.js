@@ -54,7 +54,7 @@ export const editComment=async(req,res)=>{
             return res.json({message:"unauthorised"});
         }
 
-        const updated=await comment.findByIdAndUpdate(
+        const updated=await Comment.findByIdAndUpdate(
             commentId,
             {text:req.body.text},
             {new :true}
