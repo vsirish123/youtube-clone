@@ -4,36 +4,31 @@ import Channel from "../models/Channel.js";
 
 export const getAllVideos = async (req, res) => {
   try {
-    const videos = await Video.find();
+    const videos = await Video.find().populate("channel","channelName");
     res.json(videos);
   } catch (error) {
-    console.error("GET ALL VIDEOS ERROR:", error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "server error" });
   }
 };
 
 
 export const uploadVideo=async(req,res)=>{
     try{
-        const {title,description,thumbnailUrl,videoUrl,channelId}=req.body
-        const uploader=req.user.id;
-
-        const newvideo=new Video({
+        const {title,description,thumbnailUrl,videoUrl,category,channelId}=req.body
+        if(!title||!videoUrl||!thumbnailUrl||!category){
+            return res.status(400).json({message:"All fields are required"});
+        }
+        const video=new Video.create({
             title,
             description,
             thumbnailUrl,
             videoUrl,
-            channelId,
-            uploader
+            category,
+            channel:channelId,
+            user:req.user._id
         })
 
-        await newvideo.save();
-
-        await Channel.findByIdAndUpdate(channelId,{
-            $push:{videos:newvideo._id}
-        });
-
-        res.json({message:"video uploaded successfully",video:newvideo});
+        res.status(201).json(video);
     }
     catch(err)
     {
@@ -70,59 +65,78 @@ export const getVideoById=async(req,res)=>{
         res.status(500).json({err:err.message});
     }
 }
-
-export const editVideo=async(req,res)=>{
-    try{
-        const {id}=req.params;
-        const uploader=req.user.id;
-        const video=await Video.findById(id);
-        if(!video)
-        {
-            return res.json({message:"video not found"});
-        }
-
-        if(user.uploader!=uploader)
-        {
-            return res.json({message:"unauthorized"});
-        }
-
-        const updatedVideo=await Video.findByIdAndUpdate(id,req.body,{new:true});
-
-        res.json({message:"video updated",video:updatedVideo});
-        
-    }
-    catch(err)
-    {
-        res.status(500).json({err:err.message});
+export const editVideo = async (req, res) => {
+  try {
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ message: "Unauthorized (no user)" });
     }
 
-}
-
-export const deleteVideo=async(req,res)=>{
-    try{
-        const {id}=req.params;
-        const uploader=req.user.id;
-        const video=await Video.findById(id);
-        if(!video)
-        {
-            return res.json({message:"video not found"});
-        }
-
-        if(user.uploader!=uploader)
-        {
-            return res.json({message:"unauthorized"});
-        }
-        await Video.findByIdAndDelete(id);
-
-        await Channel.findByIdAndUpdate(video.channelId,{$pull:{videos:id}});
-
-        res.json({message:"video deleted"});
+    const video = await Video.findById(req.params.id);
+    if (!video) {
+      return res.status(404).json({ message: "Video not found" });
     }
-    catch(err)
-    {
-        res.status(500).json({err:err.message});
+
+    // Auto-assign owner if missing
+    if (!video.user) {
+      video.user = req.user._id;
     }
-}
+
+    if (String(video.user) !== String(req.user._id)) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    const { title, description, videoUrl, thumbnailUrl, category } = req.body;
+
+    video.title = title ?? video.title;
+    video.description = description ?? video.description;
+    video.videoUrl = videoUrl ?? video.videoUrl;
+    video.thumbnailUrl = thumbnailUrl ?? video.thumbnailUrl;
+    video.category = category ?? video.category;
+
+    await video.save();
+    res.json(video);
+  } catch (error) {
+    console.error("EDIT VIDEO ERROR:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ===============================
+// DELETE VIDEO (OWNER ONLY)
+// ===============================
+export const deleteVideo = async (req, res) => {
+  try {
+    // HARD GUARD
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const video = await Video.findById(req.params.id);
+
+    if (!video) {
+      return res.status(404).json({ message: "Video not found" });
+    }
+
+    // Auto-assign owner for legacy videos
+    if (!video.user) {
+      video.user = req.user._id;
+      await video.save();
+    }
+
+    //  Ownership check (SAFE)
+    if (String(video.user) !== String(req.user._id)) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    await video.deleteOne();
+
+    res.json({ message: "Video deleted successfully" });
+  } catch (error) {
+    console.error("DELETE VIDEO ERROR:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const likeVideo = async (req, res) => {
   try {
     const video = await Video.findByIdAndUpdate(
