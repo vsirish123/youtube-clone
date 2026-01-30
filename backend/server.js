@@ -16,7 +16,7 @@ app.use(express.json());
 mongoose.connect("mongodb://localhost:27017/users-data").then(()=>console.log("Mongodb connected"));
 
 app.use("/api/auth",authRoutes);
-app.use("/api/channel",channelRoutes);
+app.use("/api/channels",channelRoutes);
 app.use("/api/videos",videoRoutes);
 app.use("/api/comments",commentRoutes);
 

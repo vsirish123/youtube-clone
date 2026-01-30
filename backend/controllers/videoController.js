@@ -128,31 +128,3 @@ export const deleteVideo = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-export const likeVideo = async (req, res) => {
-  try {
-    const video = await Video.findByIdAndUpdate(
-      req.params.id,
-      { $inc: { likes: 1 } },
-      { new: true }
-    ).populate("channel", "channelName");
-
-    res.json(video);
-  } catch (err) {
-    res.status(500).json({ message: "Like failed" });
-  }
-};
-
-export const dislikeVideo = async (req, res) => {
-  try {
-    const video = await Video.findByIdAndUpdate(
-      req.params.id,
-      { $inc: { dislikes: 1 } },
-      { new: true }
-    ).populate("channel", "channelName");
-
-    res.json(video);
-  } catch (err) {
-    res.status(500).json({ message: "Dislike failed" });
-  }
-};
