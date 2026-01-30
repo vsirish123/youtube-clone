@@ -44,7 +44,7 @@ export const getChannelById=async(req,res)=>{
             return res.status(404).json({message:"channel not found"})
         }
 
-        const videos=await Video.find({channelId:id});
+        const videos=await Video.find({channel:channel._id});
 
         res.json({
             channel,
@@ -56,3 +56,16 @@ export const getChannelById=async(req,res)=>{
         res.json.status(500).json({err:err.message})
     }
 }
+export const getMyChannel = async (req, res) => {
+  try {
+    const channel = await Channel.findOne({ owner: req.user.id });
+
+    if (!channel) {
+      return res.status(404).json({ message: "No channel found" });
+    }
+
+    res.json({ channel });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
