@@ -1,32 +1,33 @@
 import jwt from "jsonwebtoken";
-
+import User from "../models/User"
 const JWT_TOKEN="MY_SUPER_SECRET_KEY";
 
-export const protect=(req,res,next)=>
+export const protect=async(req,res,next)=>
 {
     try{
         const authHeader=req.headers.authorization;
 
-        if(!authHeader)
+        if(authHeader&&authHeader.startsWith("Bearer "))
         {
-            return res.status(401).json({message:"No Authorization Header"})
+            const token=authHeader.split(" ")[1];
         }
-
-        if(!authHeader.startswith("Bearer "))
+        if(!token)
         {
-            return res.status(401).json({message:"Invalid token format"})
+            return res.status(401).json({message:"no token provided"})
         }
-
-        const token=authHeader.split(" ")[1];
-
         const decoded=jwt.verify(token,JWT_TOKEN);
-
-        req.user=decoded;
-
+        const user=await User.findById(decoded.id).select("-password");
+        if(!user)
+        {
+            return res.status(401).json({message:"user not found"});
+        }
+        req.user=user;
+        next();
     }
 
     catch(err)
     {
+        console.log("Auth Error:",err.message);
         return res.status(403).json({message:"Token Invalid or expired",err:err.message});
     }
 
