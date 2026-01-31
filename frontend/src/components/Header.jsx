@@ -50,7 +50,11 @@ function Header({ toggleSidebar, setSearchText }){
             headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
-        const id = res.data.channel?._id;
+        const id =
+            res.data?.channel?._id ||
+            res.data?._id ||
+            res.data?.channelId;
+
         if (id) {
           localStorage.setItem("myChannelId", id);
           setChannelId(id);
@@ -62,9 +66,10 @@ function Header({ toggleSidebar, setSearchText }){
       });
   }, [token]);
 
-    useEffect(() => {
+        useEffect(() => {
         setChannelId(localStorage.getItem("myChannelId"));
-    }, [location]);
+        }, [location]);
+
     return (
         <div className="header">
             <div className="header-left">
@@ -96,11 +101,9 @@ function Header({ toggleSidebar, setSearchText }){
                     onClick={() => setShowMenu((p) => !p)}
                     >
                     {/* USER CIRCLE */}
-                    <div className="user-circle">
+                    <div className="user-circle" style={{ color: "red" }}>
                         {firstLetter}
                     </div>
-
-                    <span>{userName}</span>
                     <FaChevronDown size={12} />
                     </div>
 

@@ -9,15 +9,18 @@ export default function CommentSection({ videoId }) {
   const [editText, setEditText] = useState("");
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchComments();
-  }, [videoId]);
+    useEffect(() => {
+      if (videoId) fetchComments();
+    }, [videoId]);
+
 
   // FETCH COMMENTS
   const fetchComments = async () => {
     try {
       const res = await API.get(`/comments/${videoId}`);
       setComments(res.data.comments || []);
+
+
     } catch (err) {
       console.error("Fetch comments error:", err);
     }
@@ -42,7 +45,7 @@ export default function CommentSection({ videoId }) {
   const deleteComment = async (id) => {
     try {
       await API.delete(`/comments/delete/${id}`);
-      setComments(comments.filter((c) => c._id !== id));
+      setComments((prev) => prev.filter((c) => c._id !== id));
     } catch (err) {
       console.error("Delete comment failed:", err);
     }
@@ -54,13 +57,12 @@ export default function CommentSection({ videoId }) {
       const res = await API.put(`/comments/edit/${id}`, {
         text: editText,
       });
-
+      if (!editText.trim()) return;
       setComments(
         comments.map((c) =>
           c._id === id ? res.data.comment : c
         )
       );
-
       setEditId(null);
       setEditText("");
     } catch (err) {
@@ -89,8 +91,12 @@ export default function CommentSection({ videoId }) {
       {/* COMMENT LIST */}
       {comments.map((c) => (
         <div className="comment-box" key={c._id}>
-          <strong>User</strong>
-
+          <div className="avatar">
+            {c.userId?.username?.charAt(0).toUpperCase()}
+          </div>
+          <span className="username">
+            {c.userId?.username}
+          </span>
           {editId === c._id ? (
             <>
               <textarea

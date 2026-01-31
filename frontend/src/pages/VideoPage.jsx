@@ -23,16 +23,21 @@ function VideoPage() {
       try {
         // 🔹 Single video (with populated channel)
         const videoRes = await API.get(`/videos/${id}`);
-        setVideo(videoRes.data);
+        const videoData = videoRes.data;
+        setVideo(videoData);
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+          setLiked(videoData.likedBy?.includes(user._id));
+          setDisliked(videoData.dislikedBy?.includes(user._id));
+        } else {
+          setLiked(false);
+          setDisliked(false);
+        }
 
         // 🔹 All videos (for suggestions)
         const allVideosRes = await API.get("/videos");
 
-        const list = Array.isArray(allVideosRes.data)
-          ? allVideosRes.data
-          : allVideosRes.data.videos;
-
-        setVideos(list || []);
+        setVideos(allVideosRes.data || []);
       } catch (err) {
         console.error("Fetch video failed:", err);
       } finally {
@@ -45,6 +50,12 @@ function VideoPage() {
 
   // LIKE
   const handleLike = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login to like videos");
+      navigate("/login");
+      return;
+    }
     if (liked) return;
     try {
       const res = await API.put(`/videos/${id}/like`);
@@ -58,6 +69,12 @@ function VideoPage() {
 
   // DISLIKE
   const handleDislike = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login to like videos");
+      navigate("/login");
+      return;
+    }
     if (disliked) return;
     try {
       const res = await API.put(`/videos/${id}/dislike`);
@@ -73,10 +90,8 @@ function VideoPage() {
   if (!video) return <h2>Video not found</h2>;
 
   // suggested videos (exclude current)
-  const suggestedVideos = videos.filter(
-    (v) => v._id?.toString() !== id
-  );
 
+  const suggestedVideos = videos.filter((v) => v._id !== id);
   return (
     <div className="watch-container">
       {/* LEFT */}
