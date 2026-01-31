@@ -5,7 +5,7 @@ import {protect} from "../middleware/authMiddleware.js"
 const router=express.Router();
 
 router.post("/create",protect,createChannel);
-router.get("/my-channel",getMyChannel)
+router.get("/my-channel",protect,getMyChannel)
 router.get("/:id",getChannelById);
 
 export default router;

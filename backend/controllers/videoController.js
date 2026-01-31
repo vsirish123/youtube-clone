@@ -128,3 +128,87 @@ export const deleteVideo = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const likeVideo = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const video = await Video.findById(req.params.id);
+
+    if (!video) {
+      return res.status(404).json({ message: "Video not found" });
+    }
+
+    // init
+    video.likedBy ||= [];
+    video.dislikedBy ||= [];
+
+    // already liked → do nothing
+    if (video.likedBy.includes(userId)) {
+      return res.status(400).json({ message: "Already liked" });
+    }
+
+    // remove dislike FIRST
+    if (video.dislikedBy.includes(userId)) {
+      video.dislikedBy = video.dislikedBy.filter(
+        (id) => id.toString() !== userId
+      );
+    }
+
+    // add like
+    video.likedBy.push(userId);
+
+    // derive counts from arrays (KEY FIX)
+    video.likes = video.likedBy.length;
+    video.dislikes = video.dislikedBy.length;
+
+    await video.save();
+
+    const populatedVideo = await Video.findById(video._id)
+      .populate("channel", "channelName");
+
+    res.json(populatedVideo);
+  } catch (err) {
+    console.error("LIKE ERROR:", err);
+    res.status(500).json({ message: "Like failed" });
+  }
+};
+export const dislikeVideo = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const video = await Video.findById(req.params.id);
+
+    if (!video) {
+      return res.status(404).json({ message: "Video not found" });
+    }
+
+    video.likedBy ||= [];
+    video.dislikedBy ||= [];
+
+    if (video.dislikedBy.includes(userId)) {
+      return res.status(400).json({ message: "Already disliked" });
+    }
+
+    if (video.likedBy.includes(userId)) {
+      video.likedBy = video.likedBy.filter(
+        (id) => id.toString() !== userId
+      );
+    }
+
+    video.dislikedBy.push(userId);
+
+    // derive counts safely
+    video.likes = video.likedBy.length;
+    video.dislikes = video.dislikedBy.length;
+
+    await video.save();
+
+    const populatedVideo = await Video.findById(video._id)
+      .populate("channel", "channelName");
+
+    res.json(populatedVideo);
+  } catch (err) {
+    console.error("DISLIKE ERROR:", err);
+    res.status(500).json({ message: "Dislike failed" });
+  }
+};
+
