@@ -8,9 +8,8 @@ import {
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
-
-router.post("/:videoId", protect, addComment);
 router.get("/:videoId", getComments);
+router.post("/:videoId", protect, addComment);
 router.put("/edit/:commentId", protect, editComment);
 router.delete("/delete/:commentId", protect, deleteComment);
 
