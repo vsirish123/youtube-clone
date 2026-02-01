@@ -139,25 +139,11 @@ npm install
 
 npm run dev
 
-npm install react-router-dom axios
-
-npm install react-icons
-
-npm run dev
-
 3:Backend commands
 
 cd backend
 
 npm install
-
-In package.json (type:"module")
-
-npm i express
-
-npm i mongoose
-
-npm i jsonwebtoken
 
 npm run dev
 
