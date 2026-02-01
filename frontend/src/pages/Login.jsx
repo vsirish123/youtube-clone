@@ -9,20 +9,22 @@ function Login()
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault();// stops page reload on form submit
 
     if (!email || !password) {
       return alert("All fields are required");
     }
     try {
-      setLoading(true);
+      setLoading(true);// used to disable buttons + show loading text
+      // HARD-CODED backend API call (works only for localhost)
       const res = await axios.post(
         "http://localhost:5002/api/auth/login",
         { email, password }
       );
 
-    // STORE USER CORRECTLY
+    // Store JWT token for authenticated API requests
     localStorage.setItem("token", res.data.token);
+    // Store logged-in user info for UI usage
     localStorage.setItem(
       "user",
       JSON.stringify({
@@ -31,12 +33,13 @@ function Login()
         email: res.data.email,
       })
     );
-
+    // Redirect user after successful login
     navigate("/");
     } catch (err) {
+       // Optional chaining avoids crash if response is undefined
       alert(err.response?.data?.message || "Login failed");
     } finally {
-      setLoading(false);
+      setLoading(false); // runs whether success or error
   };
 }
 
