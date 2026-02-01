@@ -7,23 +7,27 @@ const CreateChannel = () => {
   const [description, setDescription] = useState("");
 
   const navigate = useNavigate();
+   // JWT token stored during login
   const token = localStorage.getItem("token");
 
   const createChannel = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5002/api/channels/create",
-        { channelName, description },
+        "http://localhost:5002/api/channels/create",// hard-coded backend endpoint
+        { channelName, description },// request body
         {
           headers: {
+            // Bearer token required for protected routes
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      // Save user's channel ID for quick access later
       localStorage.setItem("myChannelId", res.data.channel._id);
-
+      // Redirect to newly created channel page
       navigate(`/channels/${res.data.channel._id}`);
     } catch (error) {
+       // Safe error message handling
       alert(error.response?.data?.message || "Create channel failed");
     }
   };
