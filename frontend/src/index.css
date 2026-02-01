@@ -3,7 +3,6 @@
     --sidebar-open:240px;
     --sidebar-collapsed:72px;
 }
-
 *{
     margin:0;
     padding:0;
@@ -14,6 +13,7 @@ body{
     font-family:"Roboto",sans-serif;
     color:white;
 }
+/* Header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -26,40 +26,19 @@ body{
   top: 0;
   z-index: 1000;
 }
-
-.user-info {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-.user-circle {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #3ea6ff; 
-  color: #000;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  user-select: none;
-
-}
-
-
-
 .header-left{
     display: flex;
     align-items: center;
     gap:18px;
 }
+/* logo youtube */
 .logo {
   height: 50px;      
   width: auto;
   object-fit: contain;
   display: block;
 }
+/* search box */
 .search-box{
     width: 50%;
     display: flex;
@@ -102,23 +81,26 @@ body{
 /* ===============================
    USER DROPDOWN FIX
 ================================ */
-
 .user-info {
   display: flex;
   align-items: center;
-  height: 100%;
+  cursor: pointer;
 }
-
 .user-circle {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #3ea6ff;
+  background-color: #3ea6ff; 
+  color: #000;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  line-height: 1;
+  font-size: 16px;
+  user-select: none;
+
 }
+/* Filter-Bar */
 .filter-bar{
     position: sticky;
     z-index: 900;
@@ -158,7 +140,7 @@ body{
 .main-collapsed {
   margin-left: var(--sidebar-collapsed);
 }
-
+/* Sidebar */
 .sidebar {
   position: fixed;
   top: var(--header-height);
@@ -202,7 +184,7 @@ body{
   font-size: 10px;
 }
 
-
+/* Login */
 .login-container{
     display: flex;
     align-items: center;
@@ -232,6 +214,7 @@ body{
     cursor: pointer;
     padding: 12px;
 }
+/* Video-grid */
 .video-grid {
   display: grid;
   gap: 20px;
@@ -279,7 +262,7 @@ body{
   font-size: 13px;
 
 }
-
+/* VideoPage */
 .videoPage {
   display: flex;
   gap: 20px;
@@ -293,6 +276,7 @@ body{
     grid-template-columns: repeat(4, 1fr);
   }
 }
+/* Register */
 .register-container {
   display: flex;
   justify-content: center;
