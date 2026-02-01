@@ -346,7 +346,7 @@ body{
    CHANNEL PAGE BASE
 ================================ */
 .channel-page {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   margin: 0;
   padding-bottom: 40px;
@@ -556,9 +556,7 @@ body{
   width: 100%;
 }
 
-.main-collapsed .watch-container {
-  margin-left: var(--sidebar-collapsed);
-}
+
 
 button:hover {
   opacity: 0.9;
