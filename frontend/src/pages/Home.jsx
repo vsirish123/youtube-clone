@@ -1,4 +1,4 @@
-
+import { useOutletContext } from "react-router-dom";
 import VideoCard from "../components/VideoCard";
 import FilterBar from "../components/FilterBar";
 import API from "../api/api.js";
@@ -6,8 +6,8 @@ import { useState,useEffect } from "react";
 
 function Home()
 {
+        const { searchText } = useOutletContext();
         const [category, setCategory] = useState("All");
-        const [searchText, setSearchText] = useState("");
         const [videos, setVideos] = useState([]);
         const [loading, setLoading] = useState(true);
 
@@ -43,7 +43,7 @@ function Home()
 
     return (
         <>
-            <FilterBar setCategory={setCategory} setSearchText={setSearchText} />
+            <FilterBar setCategory={setCategory}  />
 
             <div className="video-grid">
                 {finalVideos.map((v) => (

@@ -5,15 +5,15 @@ import Sidebar from "../components/Sidebar";
 
 function Layout() {
   const [collapsed, setCollapsed] = useState(false);
-
+  const [searchText, setSearchText] = useState("");
   return (
     <>
-      <Header toggleSidebar={() => setCollapsed(!collapsed)} />
+      <Header toggleSidebar={() => setCollapsed(!collapsed)} setSearchText={setSearchText}/>
 
       <div className="app-body">
         <Sidebar collapsed={collapsed} />
         <main className={`main ${collapsed ? "main-collapsed" : ""}`}>
-          <Outlet />
+          <Outlet context={{ searchText }}/>
         </main>
       </div>
     </>
