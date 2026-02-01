@@ -2,61 +2,73 @@ import Video from "../models/Video.js";
 import mongoose from "mongoose";
 
 
+// ===============================
+// GET ALL VIDEOS (HOME)
+// ===============================
 export const getAllVideos = async (req, res) => {
   try {
-    const videos = await Video.find().populate("channel","channelName");
+    const videos = await Video.find()
+      .populate("channel", "channelName");
+
     res.json(videos);
   } catch (error) {
-    res.status(500).json({ message: "server error" });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
 
-export const uploadVideo=async(req,res)=>{
-    try{
-        const {title,description,thumbnailUrl,videoUrl,category,channelId}=req.body
-        if(!title||!videoUrl||!thumbnailUrl||!category){
-            return res.status(400).json({message:"All fields are required"});
-        }
-        const video=Video.create({
-            title,
-            description,
-            thumbnailUrl,
-            videoUrl,
-            category,
-            channel:channelId,
-            user:req.user._id
-        })
+// ===============================
+// UPLOAD VIDEO (OWNER ONLY)
+export const uploadVideo = async (req, res) => {
+  try {
+    const { title, description, videoUrl, thumbnailUrl, category, channelId } =
+      req.body;
 
-        res.status(201).json(video);
+    if (!title || !videoUrl || !thumbnailUrl || !category) {
+      return res.status(400).json({ message: "All fields are required" });
     }
-    catch(err)
-    {
-        res.status(500).json({err:err.message});
-    }
-}
+
+    const video = await Video.create({
+      title,
+      description,
+      videoUrl,
+      thumbnailUrl,
+      category,
+      channel: channelId,
+      user: req.user._id, // NOW req.user EXISTS
+    });
+
+    res.status(201).json(video);
+  } catch (error) {
+    console.error("UPLOAD VIDEO ERROR:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
 
 
-export const getVideoById=async(req,res)=>{
-    try{
-        const {id}=req.params;
-        if(!mongoose.Types.ObjectId.isValid(id)){
-          return res.status(400).json({message:"Invalid ID"});
-        }
-        const video=await Video.findById(id).populate("channel","channelName owner");
+// ===============================
+// GET SINGLE VIDEO
+// ===============================
+export const getVideoById = async (req, res) => {
+  const { id } = req.params;
 
-        if(!video)
-        {
-            return res.status(404).json({message:"video not found"});
-        }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid ID" });
+  }
 
-        res.json(video);
-    }
-    catch(err)
-    {
-        res.status(500).json({err:err.message});
-    }
-}
+  const video = await Video.findById(id)
+    .populate("channel", "channelName owner");
+
+  if (!video) {
+    return res.status(404).json({ message: "Video not found" });
+  }
+
+  res.json(video);
+};
+
+// ===============================
+// EDIT VIDEO (OWNER ONLY)
+// ===============================
 export const editVideo = async (req, res) => {
   try {
     if (!req.user || !req.user._id) {
@@ -68,7 +80,7 @@ export const editVideo = async (req, res) => {
       return res.status(404).json({ message: "Video not found" });
     }
 
-    // Auto-assign owner if missing
+    //  Auto-assign owner if missing
     if (!video.user) {
       video.user = req.user._id;
     }
@@ -109,12 +121,11 @@ export const deleteVideo = async (req, res) => {
       return res.status(404).json({ message: "Video not found" });
     }
 
-    // Auto-assign owner for legacy videos
+    //  Auto-assign owner for legacy videos
     if (!video.user) {
       video.user = req.user._id;
       await video.save();
     }
-
     //  Ownership check (SAFE)
     if (String(video.user) !== String(req.user._id)) {
       return res.status(403).json({ message: "Not authorized" });
