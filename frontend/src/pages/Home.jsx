@@ -6,7 +6,6 @@ import { useState,useEffect } from "react";
 
 function Home()
 {
-        const [collapsed, setCollapsed] = useState(false);
         const [category, setCategory] = useState("All");
         const [searchText, setSearchText] = useState("");
         const [videos, setVideos] = useState([]);

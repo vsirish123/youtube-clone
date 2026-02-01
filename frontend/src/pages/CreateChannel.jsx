@@ -20,8 +20,6 @@ const CreateChannel = () => {
           },
         }
       );
-
-      // IMPORTANT FIX
       localStorage.setItem("myChannelId", res.data.channel._id);
 
       navigate(`/channels/${res.data.channel._id}`);

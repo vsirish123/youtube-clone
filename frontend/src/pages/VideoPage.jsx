@@ -21,7 +21,7 @@ function VideoPage() {
   useEffect(() => {
     const fetchVideoAndSuggestions = async () => {
       try {
-        // 🔹 Single video (with populated channel)
+        //  Single video (with populated channel)
         const videoRes = await API.get(`/videos/${id}`);
         const videoData = videoRes.data;
         setVideo(videoData);
@@ -34,7 +34,7 @@ function VideoPage() {
           setDisliked(false);
         }
 
-        // 🔹 All videos (for suggestions)
+        //  All videos (for suggestions)
         const allVideosRes = await API.get("/videos");
 
         setVideos(allVideosRes.data || []);

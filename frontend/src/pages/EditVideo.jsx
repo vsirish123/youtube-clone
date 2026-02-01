@@ -3,7 +3,6 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
 const EditVideo = () => {
-  // MUST match your route: /edit-video/:videoId
   const { videoId } = useParams();
   const navigate = useNavigate();
 
