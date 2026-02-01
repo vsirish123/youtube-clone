@@ -1,5 +1,4 @@
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
+
 import VideoCard from "../components/VideoCard";
 import FilterBar from "../components/FilterBar";
 import API from "../api/api.js";
@@ -45,17 +44,12 @@ function Home()
 
     return (
         <>
-            <Header toggleSidebar={()=>setCollapsed(!collapsed)} setSearchText={setSearchText}/>
-            <div className="app-body">
-                <Sidebar collapsed={collapsed}/>
-                <div className={`main ${collapsed ? "main-collapsed":""}`}>
-                    <FilterBar setCategory={setCategory}/>
-                    <div className="video-grid">
-                        {finalVideos.map((v)=>(
-                            <VideoCard key={v._id} video={v}/>
-                        ))}
-                    </div>
-                </div>
+            <FilterBar setCategory={setCategory} setSearchText={setSearchText} />
+
+            <div className="video-grid">
+                {finalVideos.map((v) => (
+                <VideoCard key={v._id} video={v} />
+                ))}
             </div>
         </>
     )

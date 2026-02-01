@@ -14,23 +14,51 @@ body{
     font-family:"Roboto",sans-serif;
     color:white;
 }
-.header{
-    display: flex;
-    position: fixed;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 18px;
-    border-bottom: 2px solid grey;
-    width:100%;
-    top:0;
-    z-index: 50;
-    background: black;
-    height: var(--header-height);
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0f0f0f;
+  border-bottom: 1px solid #303030;
+  padding: 10px 18px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
 }
+
+.user-info {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.user-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #3ea6ff; 
+  color: #000;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  user-select: none;
+
+}
+
+
+
 .header-left{
     display: flex;
     align-items: center;
     gap:18px;
+}
+.logo {
+  height: 50px;      
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 .search-box{
     width: 50%;
@@ -66,27 +94,31 @@ body{
     width: 42px;
 }
 .sign-btn{
-    border: 1px solid grey;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    color:white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+/* ===============================
+   USER DROPDOWN FIX
+================================ */
+
+.user-info {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
 .user-circle {
   width: 36px;
   height: 36px;
   border-radius: 50%;
   background-color: #3ea6ff;
-  color: #000;              
-  font-weight: bold;
-  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-transform: uppercase;
-  user-select: none;
+  line-height: 1;
 }
-
 .filter-bar{
     position: sticky;
     z-index: 900;
@@ -110,23 +142,37 @@ body{
 .filter-bar button:hover{
     background-color: grey;
 }
+.app-body {
+  display: flex;
+  margin-top: var(--header-height);
+}
 
-.sidebar{
-    width: 240px;
-    position: fixed;
-    border-right: 1px solid grey;
-    left: 0;
-    background: black;
-    padding-top: 10px;
-    overflow: hidden;
-    transition: width 0.3s ease;
-    z-index: 100;
-    top: var(--header-height);
-    height: calc(100vh - var(--header-height));
+.main {
+  flex: 1;
+  margin-left: var(--sidebar-open);
+  padding: 20px;
+  padding-top: 12px;
+  transition: margin-left 0.3s ease;
 }
-.sidebar.collapsed{
-    width: 72px;
+
+.main-collapsed {
+  margin-left: var(--sidebar-collapsed);
 }
+
+.sidebar {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  height: calc(100vh - var(--header-height));
+  width: var(--sidebar-open);
+  overflow:hidden;
+}
+
+.sidebar.collapsed {
+  width: var(--sidebar-collapsed);
+}
+
+
 .sidebar-item {
   display: flex;
   align-items: center;
@@ -148,36 +194,15 @@ body{
 }
 .sidebar.collapsed .sidebar-item {
   flex-direction: column;
-  justify-content: center;
   gap: 4px;
   padding: 12px 0;
 }
-
 .sidebar.collapsed .sidebar-text {
   display: block;
   font-size: 10px;
-  margin-top: 4px;
-  text-align: center;
-  white-space: nowrap;
 }
 
-.app-body{
-    display: flex;
-    margin-top: var(--header-height);
-}
 
-.main{
-    margin-left: var(--sidebar-open);
-    width: calc(100% - var(--sidebar-open));
-    padding: 20px;
-    transition: margin-left 0.3s ease,width 0.3s ease;
-}
-
-.main-collapsed{
-    margin-left: var(--sidebar-collapsed);
-    width:calc(100% - var(--sidebar-collapsed));
-
-}
 .login-container{
     display: flex;
     align-items: center;
@@ -316,11 +341,13 @@ body{
    CHANNEL PAGE BASE
 ================================ */
 .channel-page {
-  max-width: 1200px;
-  margin: auto;
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
   padding-bottom: 40px;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 
 /* ===============================
    LOADING
@@ -336,12 +363,14 @@ body{
    BANNER
 ================================ */
 .channel-banner {
-  width: 100%;
+  width: 100vw;
   height: 280px;
+  margin-left: calc(-50vw + 50%);
+  border-radius: 0;
   overflow: hidden;
-  border-radius: 12px;
   background: #e5e5e5;
 }
+
 
 .channel-banner img {
   width: 100%;
@@ -518,12 +547,14 @@ body{
 ================================ */
 .watch-container {
   display: flex;
-  max-width: 1280px;
-  margin: auto;
-  padding: 20px;
   gap: 24px;
-  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
 }
+
+.main-collapsed .watch-container {
+  margin-left: var(--sidebar-collapsed);
+}
+
 button:hover {
   opacity: 0.9;
 }
@@ -533,6 +564,7 @@ button:hover {
 ================================ */
 .watch-left {
   flex: 3;
+  min-width: 0;
 }
 
 /* ===============================
@@ -540,16 +572,17 @@ button:hover {
 ================================ */
 .video-wrapper {
   width: 100%;
-  background: black;
+  max-width: 100%;
   border-radius: 12px;
   overflow: hidden;
+  margin-top: 0;
 }
 
 .video-wrapper video {
   width: 100%;
   height: auto;
-  height: 520px;
-  display: block;
+  aspect-ratio: 16/9;
+  background: black;
 }
 
 /* ===============================
@@ -723,6 +756,158 @@ button:hover {
 .channel-page {
   color: #aaa;
 }
-.header { z-index: 1000; }
-.filter-bar { z-index: 900; }
-.sidebar { z-index: 800; }
+/* ===============================
+   COMMENTS SECTION
+================================ */
+.comment-section {
+  margin-top: 24px;
+}
+
+.comment-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* ===============================
+   ADD COMMENT
+================================ */
+.add-comment {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.add-comment input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #444;
+  color: white;
+  padding: 8px 4px;
+  font-size: 14px;
+}
+
+.add-comment input::placeholder {
+  color: #888;
+}
+
+.add-comment input:focus {
+  outline: none;
+  border-bottom-color: #3ea6ff;
+}
+
+.add-comment button {
+  padding: 6px 16px;
+  border-radius: 18px;
+  border: none;
+  background: #3ea6ff;
+  color: black;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.add-comment button:hover {
+  background: #1d9bf0;
+}
+
+/* ===============================
+   COMMENT BOX
+================================ */
+.comment-box {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* ===============================
+   AVATAR
+================================ */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #3ea6ff;
+  color: black;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ===============================
+   USERNAME
+================================ */
+.username {
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+/* ===============================
+   COMMENT TEXT
+================================ */
+.comment-box p {
+  margin: 4px 0 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #e5e5e5;
+  flex-basis: 100%;
+}
+
+/* ===============================
+   EDIT TEXTAREA
+================================ */
+.comment-box textarea {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 8px;
+  color: white;
+  font-size: 14px;
+  resize: none;
+}
+
+.comment-box textarea:focus {
+  outline: none;
+  border-color: #3ea6ff;
+}
+
+/* ===============================
+   ACTION BUTTONS
+================================ */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.actions button {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.actions button:hover {
+  color: white;
+}
+
+/* ===============================
+   SAVE / CANCEL (EDIT MODE)
+================================ */
+.comment-box button {
+  margin-right: 8px;
+  padding: 4px 12px;
+  border-radius: 14px;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.comment-box button:hover {
+  opacity: 0.9;
+}

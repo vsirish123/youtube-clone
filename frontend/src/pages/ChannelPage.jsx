@@ -36,9 +36,10 @@ const ChannelPage = () => {
 
   // OWNER CHECK (SAFE)
   const isOwner =
-    user &&
-    (channel.owner === user._id ||
-      channel.owner?._id === user._id);
+  user &&
+  String(channel.owner?._id || channel.owner) === String(user._id);
+
+
 
   const deleteVideo = async (videoId) => {
     await axios.delete(

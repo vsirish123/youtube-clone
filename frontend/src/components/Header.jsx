@@ -33,6 +33,9 @@ function Header({ toggleSidebar, setSearchText }){
     const firstLetter = userName
         ? userName.charAt(0).toUpperCase()
         : "U";
+        
+    console.log("firstLetter:", firstLetter);
+
 
     const handleLogout = () => {
         localStorage.clear();
@@ -73,11 +76,14 @@ function Header({ toggleSidebar, setSearchText }){
     return (
         <div className="header">
             <div className="header-left">
-                    <FaBars
+                <FaBars
                     size={22}
                     onClick={toggleSidebar}
                     style={{ cursor: "pointer" }}
-                    />
+                />
+                <img className="logo" src="https://www.logo.wine/a/logo/YouTube/YouTube-Logo.wine.svg" alt="YouTube" onClick={() => navigate("/")} style={{ cursor: "pointer" }}
+
+        />
             </div>
             <div className="search-box">
                 <input value={text} placeholder="search" onChange={(e)=>{
@@ -101,10 +107,11 @@ function Header({ toggleSidebar, setSearchText }){
                     onClick={() => setShowMenu((p) => !p)}
                     >
                     {/* USER CIRCLE */}
-                    <div className="user-circle" style={{ color: "red" }}>
+                    <div className="user-circle">
                         {firstLetter}
                     </div>
-                    <FaChevronDown size={12} />
+
+                    <FaChevronDown size={12} className="user-arrow"/>
                     </div>
 
                     {showMenu && (
