@@ -124,36 +124,44 @@ body{
 .filter-bar button:hover{
     background-color: grey;
 }
+
 .app-body {
   display: flex;
   margin-top: var(--header-height);
 }
-
 .main {
-  flex: 1;
   margin-left: var(--sidebar-open);
+  width: calc(100% - var(--sidebar-open));
   padding: 20px;
-  padding-top: 12px;
-  transition: margin-left 0.3s ease;
+  transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
+/* Sidebar collapsed */
 .main-collapsed {
   margin-left: var(--sidebar-collapsed);
+  width: calc(100% - var(--sidebar-collapsed));
 }
-/* Sidebar */
+
+
+/* ---------------- SIDEBAR REAL YOUTUBE ---------------- */
 .sidebar {
+  width: 240px;
+  background: #0f0f0f;
+  border-right: 1px solid #303030;
   position: fixed;
-  top: var(--header-height);
   left: 0;
-  height: calc(100vh - var(--header-height));
-  width: var(--sidebar-open);
+  padding-top: 10px;
   overflow:hidden;
+  transition: width 0.3s ease;
+  z-index: 100;
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
 }
 
+/* Collapsed mode */
 .sidebar.collapsed {
-  width: var(--sidebar-collapsed);
+  width: 72px;
 }
-
 
 .sidebar-item {
   display: flex;
@@ -218,9 +226,22 @@ body{
 .video-grid {
   display: grid;
   gap: 20px;
-  margin-top: 20px;
+  padding: 0 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   transition: all 0.3s ease;
 }
+@media (max-width: 480px) {
+  .video-grid {
+    gap: 14px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .video-grid {
+    gap: 24px;
+  }
+}
+
 .video-card {
   cursor: pointer;
   text-decoration: none;
@@ -452,7 +473,7 @@ body{
 ================================ */
 .channel-videos {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 20px;
   padding: 0 10px;
 }
@@ -895,3 +916,128 @@ button:hover {
 .comment-box button:hover {
   opacity: 0.9;
 }
+/* Prevent horizontal scroll issues */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Make media always responsive */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+/* Mobile */
+@media (max-width: 480px) {
+
+  /* HEADER */
+  .header {
+    padding: 8px 10px;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .mic-btn {
+    display: none;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100vw;
+    padding: 12px;
+  }
+
+  /* VIDEO GRID */
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* WATCH PAGE */
+  .watch-container {
+    flex-direction: column;
+  }
+
+  .video-title {
+    font-size: 16px;
+  }
+
+  .channel-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .action-buttons {
+    flex-wrap: wrap;
+  }
+
+  /* FORMS */
+  .login-form,
+  .register-form {
+    width: 92%;
+  }
+
+  /* CHANNEL PAGE */
+  .channel-banner {
+    height: 180px;
+  }
+
+  .channel-avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+  }
+}
+@media (max-width: 600px) {
+  .app-body {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    grid-column: 1;
+    padding: 12px;
+  }
+}
+@media (min-width: 601px) and (max-width: 1024px) {
+
+  .sidebar {
+    width: var(--sidebar-collapsed);
+  }
+
+  .sidebar-text {
+    display: none;
+  }
+
+  .main {
+    margin-left: var(--sidebar-collapsed);
+    width: calc(100% - var(--sidebar-collapsed));
+  }
+
+  /* Video grid behaves nicely on tablets */
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .watch-container {
+    flex-direction: column;
+  }
+
+  .watch-right {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}
+
+
