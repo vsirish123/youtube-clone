@@ -1,6 +1,7 @@
 import Channel from "../models/Channel.js";
 import Video from "../models/Video.js";
 
+// creating channel
 export const createChannel=async(req,res)=>{
     try{
         const {channelName,description,channelBanner}=req.body;
@@ -32,7 +33,7 @@ export const createChannel=async(req,res)=>{
         res.status(500).json({err:err.message})
     }
 }
-
+// getting channel by id
 export const getChannelById=async(req,res)=>{
     try{
 
@@ -55,6 +56,7 @@ export const getChannelById=async(req,res)=>{
         res.status(500).json({err:err.message})
     }
 }
+//getting our channel
 export const getMyChannel = async (req, res) => {
   try {
     const channel = await Channel.findOne({ owner: req.user.id });

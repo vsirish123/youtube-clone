@@ -1,5 +1,5 @@
 import Comment from "../models/Comment.js"
-
+// Adding comment
 export const addComment=async(req,res)=>
 {
     try{
@@ -21,7 +21,7 @@ export const addComment=async(req,res)=>
         res.status.json({err:err.message})
     }
 }
-
+// Getting comments
 export const getComments=async(req,res)=>{
     try{
         const {videoId}=req.params;
@@ -37,7 +37,7 @@ export const getComments=async(req,res)=>{
         res.status(500).json({err:err.message})
     }
 }
-
+// Editing the comment
 export const editComment=async(req,res)=>{
     try{
         const {commentId}=req.params;
@@ -68,7 +68,7 @@ export const editComment=async(req,res)=>{
 
     }
 }
-
+// Deleting the comment
 export const deleteComment=async(req,res)=>{
     try{
         const {commentId}=req.params;

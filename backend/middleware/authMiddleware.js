@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js"
 const JWT_TOKEN="MY_SUPER_SECRET_KEY";
-
+// Middle ware function using for function
 export const protect=async(req,res,next)=>
 {
     try{

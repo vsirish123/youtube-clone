@@ -1,8 +1,8 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-
+// secret key
 const JWT_TOKEN="MY_SUPER_SECRET_KEY";
-
+// resgistration
 export const registerUser=async(req,res)=>{
     try{
         const {username,email,password}=req.body;
@@ -28,7 +28,7 @@ export const registerUser=async(req,res)=>{
         res.status(500).json({err:err.message})
     }
 }
-
+// login
 export const loginUser=async(req,res)=>{
     try{
         const {email,password}=req.body;
