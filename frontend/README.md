@@ -137,6 +137,8 @@ cd frontend
 
 npm install
 
+npm install axios react-icons
+
 npm run dev
 
 3:Backend commands
