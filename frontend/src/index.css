@@ -1,0 +1,1041 @@
+:root{
+    --header-height:64px;
+    --sidebar-open:240px;
+    --sidebar-collapsed:72px;
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+body{
+    background: black;
+    font-family:"Roboto",sans-serif;
+    color:white;
+}
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0f0f0f;
+  border-bottom: 1px solid #303030;
+  padding: 10px 18px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+.header-left{
+    display: flex;
+    align-items: center;
+    gap:18px;
+}
+/* logo youtube */
+.logo {
+  height: 50px;      
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+/* search box */
+.search-box{
+    width: 50%;
+    display: flex;
+}
+.search-box input{
+    width: 100%;
+    padding:10px;
+    border:1px solid grey;
+    border-right: none;
+    border-radius: 20px 0 0 20px;
+    color:white;
+    background:black;
+}
+.search-btn{
+    width: 60px;
+    border-radius: 0 20px 20px 0;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:white;
+    background: black;
+}
+.mic-btn{
+    border: 1px solid grey;
+    border-radius:50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:white;
+    background:black;
+    width: 42px;
+}
+.sign-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===============================
+   USER DROPDOWN FIX
+================================ */
+.user-info {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.user-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #3ea6ff; 
+  color: #000;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  user-select: none;
+
+}
+/* Filter-Bar */
+.filter-bar{
+    position: sticky;
+    z-index: 900;
+    top:var(--header-height);
+    background:black;
+    display: flex;
+    white-space: nowrap;
+    overflow-x: auto;
+    padding: 12px 16px;
+    gap:12px;
+}
+.filter-bar button{
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: #272727;;
+    color:white;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+}
+.filter-bar button:hover{
+    background-color: grey;
+}
+
+.app-body {
+  display: flex;
+  margin-top: var(--header-height);
+}
+.main {
+  margin-left: var(--sidebar-open);
+  width: calc(100% - var(--sidebar-open));
+  padding: 20px;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+/* Sidebar collapsed */
+.main-collapsed {
+  margin-left: var(--sidebar-collapsed);
+  width: calc(100% - var(--sidebar-collapsed));
+}
+
+
+/* ---------------- SIDEBAR REAL YOUTUBE ---------------- */
+.sidebar {
+  width: 240px;
+  background: #0f0f0f;
+  border-right: 1px solid #303030;
+  position: fixed;
+  left: 0;
+  padding-top: 10px;
+  overflow:hidden;
+  transition: width 0.3s ease;
+  z-index: 100;
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+}
+
+/* Collapsed mode */
+.sidebar.collapsed {
+  width: 72px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 20px;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.sidebar-item:hover{
+    background: grey;
+}
+.sidebar-icon{
+    font-size: 25px;
+}
+.sidebar-text{
+    font-size: 18px;
+    align-items: center;
+}
+.sidebar.collapsed .sidebar-item {
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 0;
+}
+.sidebar.collapsed .sidebar-text {
+  display: block;
+  font-size: 10px;
+}
+
+/* Login */
+.login-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.login-form{
+    width: 300px;
+    padding:20px;
+    border-radius: 20px;
+    border: 2px solid grey;
+    background: white;
+}
+.login-form input{
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid whitesmoke;
+    padding: 12px;
+}
+.login-form button{
+    color:white;
+    background: red;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 12px;
+}
+/* Video-grid */
+.video-grid {
+  display: grid;
+  gap: 20px;
+  padding: 0 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  transition: all 0.3s ease;
+}
+@media (max-width: 480px) {
+  .video-grid {
+    gap: 14px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .video-grid {
+    gap: 24px;
+  }
+}
+
+.video-card {
+  cursor: pointer;
+  text-decoration: none;
+  color:white;
+  transition: transform 0.2s ease;
+}
+
+.video-card:hover {
+  transform: scale(1.03);
+}
+
+.video-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 14px;
+  transition: border-radius 0.2s ease;
+}
+
+.video-card:hover img {
+  border-radius: 10px;
+}
+
+.video-info {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.video-details h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.video-details p {
+  margin: 3px 0;
+  font-size: 13px;
+
+}
+/* VideoPage */
+.videoPage {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background: #0f0f0f;
+  color: white;
+}
+
+@media (min-width: 1200px) {
+  .video-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+/* Register */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.register-form {
+  width: 350px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.register-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.register-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.register-form button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: red;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.register-form p {
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* ===============================
+   CHANNEL PAGE BASE
+================================ */
+.channel-page {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding-bottom: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* ===============================
+   LOADING
+================================ */
+.channel-loading {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 60px;
+  color: #555;
+}
+
+/* ===============================
+   BANNER
+================================ */
+.channel-banner {
+  width: 100vw;
+  height: 280px;
+  margin-left: calc(-50vw + 50%);
+  border-radius: 0;
+  overflow: hidden;
+  background: #e5e5e5;
+}
+
+
+.channel-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===============================
+   HEADER
+================================ */
+.channel-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 10px;
+}
+
+.channel-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #0f0f0f;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.channel-info {
+  flex: 1;
+}
+
+.channel-info h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.channel-info p {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #606060;
+  max-width: 600px;
+}
+
+/* ===============================
+   UPLOAD BUTTON
+================================ */
+.upload-btn {
+  padding: 10px 16px;
+  background: #cc0000;
+  color: white;
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.upload-btn:hover {
+  background: #b00000;
+}
+
+/* ===============================
+   TABS
+================================ */
+.channel-tabs {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+
+.channel-tabs button {
+  background: none;
+  border: none;
+  padding: 12px 0;
+  font-size: 14px;
+  cursor: pointer;
+  color: #606060;
+}
+
+.channel-tabs button.active {
+  color: #0f0f0f;
+  border-bottom: 2px solid #0f0f0f;
+  font-weight: 500;
+}
+
+/* ===============================
+   VIDEOS GRID
+================================ */
+.channel-videos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  padding: 0 10px;
+}
+
+/* ===============================
+   VIDEO CARD
+================================ */
+.channel-video-card {
+  cursor: pointer;
+}
+
+.channel-video-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #ddd;
+}
+
+.channel-video-card h4 {
+  margin: 10px 0 6px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ===============================
+   VIDEO ACTIONS
+================================ */
+.video-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.video-actions button {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 14px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+.video-actions button:hover {
+  background: #f2f2f2;
+}
+
+.video-actions .danger {
+  border-color: #cc0000;
+  color: #cc0000;
+}
+
+.video-actions .danger:hover {
+  background: #ffe5e5;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .channel-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .upload-btn {
+    align-self: flex-start;
+  }
+
+  .channel-banner {
+    height: 200px;
+  }
+}
+/* ===============================
+   WATCH PAGE LAYOUT
+================================ */
+.watch-container {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+}
+
+
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* ===============================
+   LEFT SIDE
+================================ */
+.watch-left {
+  flex: 3;
+  min-width: 0;
+}
+
+/* ===============================
+   VIDEO PLAYER
+================================ */
+.video-wrapper {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 0;
+}
+
+.video-wrapper video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  background: black;
+}
+
+/* ===============================
+   TITLE
+================================ */
+.video-title {
+  margin: 14px 0 8px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ===============================
+   CHANNEL ROW
+================================ */
+.channel-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 16px;
+}
+
+.channel-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.channel-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #181818;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.channel-left h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.channel-left p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #aaa;
+}
+
+/* ===============================
+   ACTION BUTTONS
+================================ */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-buttons button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 18px;
+  border: none;
+  background: #f2f2f2;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.action-buttons button:hover {
+  background: #e5e5e5;
+}
+
+/* LIKE / DISLIKE */
+.like-btn.active {
+  background: #e6f3ff;
+  border-color: #3ea6ff;
+  color: #065fd4;
+}
+
+.dislike-btn.active {
+  background: #ffe5e5;
+  border-color: #cc0000;
+  color: #cc0000;
+}
+
+/* SUBSCRIBE */
+.subscribe-btn {
+  background:white;
+  color: red;
+  border: none;
+  font-weight: 500;
+}
+
+.subscribe-btn:hover {
+  background: #b00000;
+}
+
+/* ===============================
+   DESCRIPTION
+================================ */
+.video-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 12px 0;
+}
+
+
+
+/* ===============================
+   RIGHT SIDE (SUGGESTIONS)
+================================ */
+.watch-right {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ===============================
+   SUGGESTED CARD
+================================ */
+.suggest-card {
+  display: flex;
+  gap: 10px;
+}
+
+.suggest-card img {
+  width: 168px;
+  height: 94px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #ddd;
+}
+
+.suggest-info h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.suggest-info p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #606060;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 1024px) {
+  .watch-container {
+    flex-direction: column;
+  }
+
+  .watch-right {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .suggest-card {
+    min-width: 260px;
+  }
+}
+
+.video-details p,
+.video-desc,
+.channel-page {
+  color: #aaa;
+}
+/* ===============================
+   COMMENTS SECTION
+================================ */
+.comment-section {
+  margin-top: 24px;
+}
+
+.comment-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* ===============================
+   ADD COMMENT
+================================ */
+.add-comment {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.add-comment input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #444;
+  color: white;
+  padding: 8px 4px;
+  font-size: 14px;
+}
+
+.add-comment input::placeholder {
+  color: #888;
+}
+
+.add-comment input:focus {
+  outline: none;
+  border-bottom-color: #3ea6ff;
+}
+
+.add-comment button {
+  padding: 6px 16px;
+  border-radius: 18px;
+  border: none;
+  background: #3ea6ff;
+  color: black;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.add-comment button:hover {
+  background: #1d9bf0;
+}
+
+/* ===============================
+   COMMENT BOX
+================================ */
+.comment-box {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* ===============================
+   AVATAR
+================================ */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #3ea6ff;
+  color: black;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ===============================
+   USERNAME
+================================ */
+.username {
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+/* ===============================
+   COMMENT TEXT
+================================ */
+.comment-box p {
+  margin: 4px 0 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #e5e5e5;
+  flex-basis: 100%;
+}
+
+/* ===============================
+   EDIT TEXTAREA
+================================ */
+.comment-box textarea {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 8px;
+  color: white;
+  font-size: 14px;
+  resize: none;
+}
+
+.comment-box textarea:focus {
+  outline: none;
+  border-color: #3ea6ff;
+}
+
+/* ===============================
+   ACTION BUTTONS
+================================ */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.actions button {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.actions button:hover {
+  color: white;
+}
+
+/* ===============================
+   SAVE / CANCEL (EDIT MODE)
+================================ */
+.comment-box button {
+  margin-right: 8px;
+  padding: 4px 12px;
+  border-radius: 14px;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.comment-box button:hover {
+  opacity: 0.9;
+}
+/* Prevent horizontal scroll issues */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Make media always responsive */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+/* Mobile */
+@media (max-width: 480px) {
+
+  /* HEADER */
+  .header {
+    padding: 8px 10px;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .mic-btn {
+    display: none;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100vw;
+    padding: 12px;
+  }
+
+  /* VIDEO GRID */
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* WATCH PAGE */
+  .watch-container {
+    flex-direction: column;
+  }
+
+  .video-title {
+    font-size: 16px;
+  }
+
+  .channel-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .action-buttons {
+    flex-wrap: wrap;
+  }
+
+  /* FORMS */
+  .login-form,
+  .register-form {
+    width: 92%;
+  }
+
+  /* CHANNEL PAGE */
+  .channel-banner {
+    height: 180px;
+  }
+
+  .channel-avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+  }
+}
+@media (max-width: 600px) {
+  .app-body {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    grid-column: 1;
+    padding: 12px;
+  }
+}
+@media (min-width: 601px) and (max-width: 1024px) {
+
+  .sidebar {
+    width: var(--sidebar-collapsed);
+  }
+
+  .sidebar-text {
+    display: none;
+  }
+
+  .main {
+    margin-left: var(--sidebar-collapsed);
+    width: calc(100% - var(--sidebar-collapsed));
+  }
+
+  /* Video grid behaves nicely on tablets */
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .watch-container {
+    flex-direction: column;
+  }
+
+  .watch-right {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}
+
+
