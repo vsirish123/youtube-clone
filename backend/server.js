@@ -10,7 +10,10 @@ const app=express();
 app.use(cors())
 app.use(express.json());
 // connectiong mongodb
-mongoose.connect("mongodb://localhost:27017/users-data").then(()=>console.log("Mongodb connected"));
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 // api routes
 app.use("/api/auth",authRoutes);
 app.use("/api/channels",channelRoutes);
@@ -21,4 +24,8 @@ app.get("/",(req,res)=>{
     res.send("youtube clone Backend Running...");
 })
 // server running on port with 5002
-app.listen(5002,()=>console.log("server running at 5002"));
+const PORT = process.env.PORT || 5002;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

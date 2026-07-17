@@ -70,7 +70,7 @@ function Header({ toggleSidebar, setSearchText }){
   }, [token]);
 
         useEffect(() => {
-        setChannelId(localStorage.getItem("myChannelId"));
+            setChannelId(localStorage.getItem("myChannelId"));
         }, [location]);
 
     return (
