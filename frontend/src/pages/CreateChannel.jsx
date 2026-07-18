@@ -1,34 +1,37 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API from "../api/api";
 
 const CreateChannel = () => {
   const [channelName, setChannelName] = useState("");
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-   // JWT token stored during login
-  const token = localStorage.getItem("token");
 
   const createChannel = async () => {
+    if (!channelName.trim()) {
+      return alert("Channel name is required");
+    }
+
     try {
-      const res = await axios.post(
-        "http://localhost:5002/api/channels/create",// hard-coded backend endpoint
-        { channelName, description },// request body
-        {
-          headers: {
-            // Bearer token required for protected routes
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      // Save user's channel ID for quick access later
+      setLoading(true);
+
+      const res = await API.post("/channels/create", {
+        channelName,
+        description,
+      });
+
       localStorage.setItem("myChannelId", res.data.channel._id);
-      // Redirect to newly created channel page
+
+      alert("Channel created successfully");
+
       navigate(`/channels/${res.data.channel._id}`);
     } catch (error) {
-       // Safe error message handling
+      console.error(error);
       alert(error.response?.data?.message || "Create channel failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,10 +40,14 @@ const CreateChannel = () => {
       <h2>Create Channel</h2>
 
       <input
-        placeholder="Channel name"
+        type="text"
+        placeholder="Channel Name"
         value={channelName}
         onChange={(e) => setChannelName(e.target.value)}
       />
+
+      <br />
+      <br />
 
       <textarea
         placeholder="Description"
@@ -48,7 +55,12 @@ const CreateChannel = () => {
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <button onClick={createChannel}>Create Channel</button>
+      <br />
+      <br />
+
+      <button onClick={createChannel} disabled={loading}>
+        {loading ? "Creating..." : "Create Channel"}
+      </button>
     </div>
   );
 };

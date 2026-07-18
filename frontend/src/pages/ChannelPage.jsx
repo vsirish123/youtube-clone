@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import API from "../api/api";
 
 const ChannelPage = () => {
   const { id } = useParams();
@@ -11,14 +11,12 @@ const ChannelPage = () => {
   const [loading, setLoading] = useState(true);
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchChannel = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5002/api/channels/${id}`
-        );
+        const res = await API.get(`/channels/${id}`);
+
         setChannel(res.data.channel);
         setVideos(res.data.videos);
       } catch (err) {
@@ -31,28 +29,34 @@ const ChannelPage = () => {
     fetchChannel();
   }, [id]);
 
-  if (loading) return <p className="channel-loading">Loading...</p>;
-  if (!channel) return <p className="channel-loading">Channel not found</p>;
+  if (loading) {
+    return <p className="channel-loading">Loading...</p>;
+  }
 
-  // OWNER CHECK (SAFE)
+  if (!channel) {
+    return <p className="channel-loading">Channel not found</p>;
+  }
+
   const isOwner =
-  user &&
-  String(channel.owner?._id || channel.owner) === String(user._id);
-
-
+    user &&
+    String(channel.owner?._id || channel.owner) === String(user._id);
 
   const deleteVideo = async (videoId) => {
-    await axios.delete(
-      `http://localhost:5002/api/videos/${videoId}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    try {
+      await API.delete(`/videos/${videoId}`);
 
-    setVideos((prev) => prev.filter((v) => v._id !== videoId));
+      setVideos((prev) => prev.filter((video) => video._id !== videoId));
+
+      alert("Video deleted successfully");
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || "Failed to delete video");
+    }
   };
 
   return (
     <div className="channel-page">
-      {/* ================= BANNER ================= */}
+      {/* Banner */}
       <div className="channel-banner">
         <img
           src={channel.channelBanner || "https://picsum.photos/1200/300"}
@@ -60,7 +64,7 @@ const ChannelPage = () => {
         />
       </div>
 
-      {/* ================= HEADER ================= */}
+      {/* Channel Header */}
       <div className="channel-header">
         <div className="channel-avatar">
           {channel.channelName.charAt(0)}
@@ -81,40 +85,45 @@ const ChannelPage = () => {
         )}
       </div>
 
-      {/* ================= TABS ================= */}
+      {/* Tabs */}
       <div className="channel-tabs">
         <button className="active">Videos</button>
       </div>
 
-      {/* ================= VIDEOS ================= */}
+      {/* Videos */}
       <div className="channel-videos">
-        {videos.map((video) => (
-          <div key={video._id} className="channel-video-card">
-            <img
-              src={video.thumbnailUrl || "https://picsum.photos/300/180"}
-              alt={video.title}
-              onClick={() => navigate(`/video/${video._id}`)}
-            />
+        {videos.length === 0 ? (
+          <p>No videos uploaded yet.</p>
+        ) : (
+          videos.map((video) => (
+            <div key={video._id} className="channel-video-card">
+              <img
+                src={video.thumbnailUrl || "https://picsum.photos/300/180"}
+                alt={video.title}
+                onClick={() => navigate(`/video/${video._id}`)}
+              />
 
-            <h4>{video.title}</h4>
+              <h4>{video.title}</h4>
 
-            {isOwner && (
-              <div className="video-actions">
-                <button
-                  onClick={() => navigate(`/edit-video/${video._id}`)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="danger"
-                  onClick={() => deleteVideo(video._id)}
-                >
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
+              {isOwner && (
+                <div className="video-actions">
+                  <button
+                    onClick={() => navigate(`/edit-video/${video._id}`)}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="danger"
+                    onClick={() => deleteVideo(video._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import API from "../api/api";
 
 const EditVideo = () => {
   const { videoId } = useParams();
   const navigate = useNavigate();
-
-  const token = localStorage.getItem("token");
 
   const [form, setForm] = useState({
     title: "",
@@ -24,9 +22,7 @@ const EditVideo = () => {
   useEffect(() => {
     const fetchVideo = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5002/api/videos/${videoId}`
-        );
+        const res = await API.get(`/videos/${videoId}`);
 
         setForm({
           title: res.data.title || "",
@@ -37,7 +33,7 @@ const EditVideo = () => {
         });
       } catch (error) {
         console.error("FETCH VIDEO ERROR:", error);
-        alert("Failed to load video");
+        alert(error.response?.data?.message || "Failed to load video");
       }
     };
 
@@ -48,32 +44,28 @@ const EditVideo = () => {
   // UPDATE VIDEO
   // ===============================
   const updateVideo = async () => {
-    if (!form.category) {
-      alert("Category is required");
+    if (
+      !form.title ||
+      !form.description ||
+      !form.videoUrl ||
+      !form.thumbnailUrl ||
+      !form.category
+    ) {
+      alert("Please fill all fields");
       return;
     }
 
     try {
       setLoading(true);
 
-      await axios.put(
-        `http://localhost:5002/api/videos/${videoId}`,
-        form,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await API.put(`/videos/${videoId}`, form);
 
-      alert("Video updated successfully ");
+      alert("Video updated successfully");
+
       navigate(-1);
     } catch (error) {
       console.error("UPDATE VIDEO ERROR:", error);
-      alert(
-        error.response?.data?.message ||
-          "Update failed"
-      );
+      alert(error.response?.data?.message || "Update failed");
     } finally {
       setLoading(false);
     }
@@ -87,6 +79,7 @@ const EditVideo = () => {
       <h2>Edit Video</h2>
 
       <input
+        type="text"
         placeholder="Title"
         value={form.title}
         onChange={(e) =>
@@ -94,7 +87,11 @@ const EditVideo = () => {
         }
       />
 
+      <br />
+      <br />
+
       <input
+        type="text"
         placeholder="Video URL"
         value={form.videoUrl}
         onChange={(e) =>
@@ -102,13 +99,20 @@ const EditVideo = () => {
         }
       />
 
+      <br />
+      <br />
+
       <input
+        type="text"
         placeholder="Thumbnail URL"
         value={form.thumbnailUrl}
         onChange={(e) =>
           setForm({ ...form, thumbnailUrl: e.target.value })
         }
       />
+
+      <br />
+      <br />
 
       <textarea
         placeholder="Description"
@@ -117,6 +121,9 @@ const EditVideo = () => {
           setForm({ ...form, description: e.target.value })
         }
       />
+
+      <br />
+      <br />
 
       <select
         value={form.category}
@@ -132,12 +139,13 @@ const EditVideo = () => {
       </select>
 
       <br />
+      <br />
 
       <button
         onClick={updateVideo}
         disabled={loading}
       >
-        {loading ? "Updating..." : "Update"}
+        {loading ? "Updating..." : "Update Video"}
       </button>
     </div>
   );
